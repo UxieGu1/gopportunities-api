@@ -3,7 +3,6 @@ package router
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,12 +10,9 @@ import (
 func Initialize() {
   router := gin.Default()
 
-  router.GET("/ping", func(c *gin.Context) {
-    c.JSON(http.StatusOK, gin.H{
-      "message": "pong",
-    })
-  })
+  initilizeRoutes(router)
 
+  router.Run(":8080")
 
   if err := router.Run(); err != nil {
     log.Fatalf("failed to run server: %v", err)

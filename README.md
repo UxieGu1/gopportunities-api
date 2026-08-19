@@ -41,9 +41,11 @@ O projeto utiliza uma organização baseada em pacotes, buscando separar as resp
 ├── controllers/
 ├── database/
 ├── models/
-├── routes/
 ├── tests/
 ├── docs/
+├── handler/
+├── router/
+├── schemas/
 ├── docker-compose.yml
 ├── Dockerfile
 ├── Makefile
