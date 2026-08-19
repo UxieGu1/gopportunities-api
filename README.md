@@ -44,8 +44,8 @@ O projeto utiliza uma organização baseada em pacotes, buscando separar as resp
 ├── routes/
 ├── tests/
 ├── docs/
-├── Dockerfile
 ├── docker-compose.yml
+├── Dockerfile
 ├── Makefile
 ├── go.mod
 └── main.go
