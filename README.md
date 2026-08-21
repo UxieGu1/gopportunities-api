@@ -38,6 +38,7 @@ O projeto utiliza uma organização baseada em pacotes, buscando separar as resp
 ```text
 .
 ├── assets/
+├── config/
 ├── controllers/
 ├── database/
 ├── models/
