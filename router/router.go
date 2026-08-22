@@ -1,8 +1,8 @@
 package router
 
-
 import (
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,9 +12,12 @@ func Initialize() {
 
   initilizeRoutes(router)
 
-  router.Run(":8080")
+  port := os.Getenv("PORT")
+  if port == "" {
+    port = "8081"
+  }
 
-  if err := router.Run(); err != nil {
+  if err := router.Run(":" + port); err != nil {
     log.Fatalf("failed to run server: %v", err)
   }
 }
