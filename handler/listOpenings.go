@@ -6,9 +6,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ListOpeningsHandler(context *gin.Context){
+// ListOpeningsHandler godoc
+// @Summary Lista todas as oportunidades
+// @Tags openings
+// @Produce json
+// @Success 200 {array} schemas.Opening
+// @Failure 500 {object} map[string]interface{}
+// @Router /openings [get]
+func ListOpeningsHandler(ctx *gin.Context) {
+	openings, err := openingService.List()
+	if err != nil {
+		sendError(ctx, http.StatusInternalServerError, "error listing openings")
+		return
+	}
 
-	context.JSON(http.StatusOK, gin.H{
-				"message" : "GET Openings",
-			})
+	sendSuccess(ctx, "list-openings", openings)
 }

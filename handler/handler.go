@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/UxieGu1/gopportunities-api/config"
+	"github.com/UxieGu1/gopportunities-api/service"
 	"gorm.io/gorm"
 )
 
@@ -9,11 +10,13 @@ import (
 var (
 	logger *config.Logger
 	db *gorm.DB
+	openingService *service.OpeningService
 )
 
-func Init(){
+func InitializeHandler(){
 	logger = config.GetLogger("handler")
 	db = config.GetSQLite()
+	openingService = service.NewOpeningService(db)
 }
 
 

@@ -7,13 +7,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateOpeningHandler godoc
+// @Summary Cria uma nova oportunidade
+// @Tags openings
+// @Accept json
+// @Produce json
+// @Param request body CreateOpeningRequest true "Dados da oportunidade"
+// @Success 200 {object} schemas.Opening
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /openings [post]
 func CreateOpeningHandler(context *gin.Context){
+	request := CreateOpeningRequest{}
 
-	request := CreateOpeningRequest{
-		 
-	}
-
-	context.BindJSON(&request)
+	if err := context.BindJSON(&request); err != nil {
+        logger.Errorf("json binding error: %v", err.Error())
+        sendError(context, http.StatusBadRequest, err.Error())
+        return 
+    }
 
 	if err := request.Validate(); err != nil {
 		logger.Errorf("validation error: %v", err.Error())
@@ -30,11 +41,11 @@ func CreateOpeningHandler(context *gin.Context){
 		Salary: request.Salary,
 	}
 
-	if err := db.Create(&opening).Error; err != nil {
+	if err := openingService.Create(&opening); err != nil {
 		logger.Errorf("Error creating opening: %v", err.Error())
 		sendError(context, http.StatusInternalServerError, "error creating opening on database")
 		return
 	}
 
-	sendSucess(context, "create-opening", opening)
+	sendSuccess(context, "create-opening", opening)
 }
