@@ -10,11 +10,23 @@ import (
 
 func InitializeSQLite() (*gorm.DB, error) {
 	logger := GetLogger("sqlite")
-	dbPath := "./db/main.db"
+	dbPath := os.Getenv("DB_PATH")
+	if dbPath == "" {
+		dbPath = "./db/main.db"
+	}
+
+	dir := "."
+	if dbPath != "" {
+		dir = dbPath
+		if idx := len(dbPath) - len("/main.db"); idx > 0 {
+			dir = dbPath[:idx]
+		}
+	}
+
 	_, err := os.Stat(dbPath)
 	if os.IsNotExist(err) {
 		logger.Info("database file not found, creating...")
-		err = os.MkdirAll("./db", os.ModePerm)
+		err = os.MkdirAll(dir, os.ModePerm)
 		if err != nil {
 			return nil, err
 		}

@@ -9,6 +9,7 @@ import (
 	"github.com/UxieGu1/gopportunities-api/config"
 	"github.com/UxieGu1/gopportunities-api/handler"
 	"github.com/UxieGu1/gopportunities-api/router"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -16,6 +17,8 @@ var (
 )
 
 func main() {
+	_ = godotenv.Load()
+
 	logger = config.GetLogger("main")
 	err := config.Init()
 	if err != nil {

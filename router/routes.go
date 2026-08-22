@@ -8,7 +8,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func initilizeRoutes(router *gin.Engine){
+func initializeRoutes(router *gin.Engine){
 	basePath := "/api/v1"
 	docs.SwaggerInfo.BasePath = basePath
 
