@@ -1,4 +1,4 @@
-.PHONY: default run build test docs clean help
+.PHONY: default run run-with-docs build test docs clean help
 
 # Nome do executável que será gerado
 APP_NAME=gopportunities
@@ -9,18 +9,22 @@ default: run
 # Roda a aplicação em modo de desenvolvimento
 run:
 	@echo "🚀 Iniciando a API em modo dev..."
-	@go run main.go
+	@go run ./cmd/api
 
 # Gera a documentação do Swagger (se você estiver usando swag init)
 run-with-docs:
 	@echo "📚 Atualizando documentação do Swagger..."
-	@swag init
-	@go run main.go
+	@swag init -g cmd/api/main.go -o docs
+	@go run ./cmd/api
+
+docs:
+	@echo "📚 Atualizando documentação do Swagger..."
+	@swag init -g cmd/api/main.go -o docs
 
 # Compila o projeto e gera o arquivo executável
 build:
 	@echo "🔨 Compilando o projeto..."
-	@go build -o $(APP_NAME) main.go
+	@go build -o $(APP_NAME) ./cmd/api
 	@echo "✅ Build concluído! Executável criado: $(APP_NAME)"
 
 # Executa todos os testes do projeto
@@ -39,7 +43,7 @@ clean:
 # Comando de ajuda para listar as opções (basta digitar "make help")
 help:
 	@echo "Comandos disponíveis:"
-	@echo "  make run    - Roda a aplicação (go run main.go)"
+	@echo "  make run    - Roda a aplicação (go run ./cmd/api)"
 	@echo "  make build  - Compila o executável do projeto"
 	@echo "  make test   - Executa todos os testes do repositório"
 	@echo "  make docs   - Gera a documentação da API (swaggo)"

@@ -6,9 +6,9 @@
 package main
 
 import (
-	"github.com/UxieGu1/gopportunities-api/config"
-	"github.com/UxieGu1/gopportunities-api/handler"
-	"github.com/UxieGu1/gopportunities-api/router"
+	"github.com/UxieGu1/gopportunities-api/internal/config"
+	"github.com/UxieGu1/gopportunities-api/internal/handler"
+	"github.com/UxieGu1/gopportunities-api/internal/router"
 	"github.com/joho/godotenv"
 )
 

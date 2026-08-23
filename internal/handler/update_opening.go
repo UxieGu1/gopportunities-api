@@ -44,7 +44,7 @@ func UpdateOpeningHandler(ctx *gin.Context) {
 		sendError(ctx, http.StatusNotFound, "opening not found")
 		return
 	}
-	
+
 	if request.Role != "" {
 		opening.Role = request.Role
 	}
@@ -68,7 +68,7 @@ func UpdateOpeningHandler(ctx *gin.Context) {
 	if request.Salary > 0 {
 		opening.Salary = request.Salary
 	}
-	
+
 	if err := openingService.Update(&opening); err != nil {
 		logger.Errorf("error updating opening: %v", err.Error())
 		sendError(ctx, http.StatusInternalServerError, "error updating opening")

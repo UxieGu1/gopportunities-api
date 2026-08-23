@@ -1,23 +1,19 @@
 package handler
 
 import (
-	"github.com/UxieGu1/gopportunities-api/config"
-	"github.com/UxieGu1/gopportunities-api/service"
+	"github.com/UxieGu1/gopportunities-api/internal/config"
+	"github.com/UxieGu1/gopportunities-api/internal/service"
 	"gorm.io/gorm"
 )
 
-
 var (
-	logger *config.Logger
-	db *gorm.DB
+	logger         *config.Logger
+	db             *gorm.DB
 	openingService *service.OpeningService
 )
 
-func InitializeHandler(){
+func InitializeHandler() {
 	logger = config.GetLogger("handler")
 	db = config.GetSQLite()
 	openingService = service.NewOpeningService(db)
 }
-
-
-

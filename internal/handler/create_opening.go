@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/UxieGu1/gopportunities-api/schemas"
+	"github.com/UxieGu1/gopportunities-api/internal/schemas"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,14 +17,14 @@ import (
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /openings [post]
-func CreateOpeningHandler(context *gin.Context){
+func CreateOpeningHandler(context *gin.Context) {
 	request := CreateOpeningRequest{}
 
 	if err := context.BindJSON(&request); err != nil {
-        logger.Errorf("json binding error: %v", err.Error())
-        sendError(context, http.StatusBadRequest, err.Error())
-        return 
-    }
+		logger.Errorf("json binding error: %v", err.Error())
+		sendError(context, http.StatusBadRequest, err.Error())
+		return
+	}
 
 	if err := request.Validate(); err != nil {
 		logger.Errorf("validation error: %v", err.Error())
@@ -33,12 +33,12 @@ func CreateOpeningHandler(context *gin.Context){
 	}
 
 	opening := schemas.Opening{
-		Role: request.Role,
-		Company: request.Company,
+		Role:     request.Role,
+		Company:  request.Company,
 		Location: request.Location,
-		Remote: *request.Remote,
-		Link: request.Link,
-		Salary: request.Salary,
+		Remote:   *request.Remote,
+		Link:     request.Link,
+		Salary:   request.Salary,
 	}
 
 	if err := openingService.Create(&opening); err != nil {

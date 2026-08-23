@@ -17,13 +17,13 @@ import (
 // @Failure 404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /openings/{id} [delete]
-func DeleteOpeningHandler(context *gin.Context){
+func DeleteOpeningHandler(context *gin.Context) {
 	id := context.Param("id")
 
 	if id == "" {
 		sendError(context, http.StatusBadRequest, errParamIsRequired("id", "pathParameter").Error())
 		return
-	} 
+	}
 
 	opening, err := openingService.GetByID(id)
 	if err != nil {

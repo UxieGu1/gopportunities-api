@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/UxieGu1/gopportunities-api/config"
+	"github.com/UxieGu1/gopportunities-api/internal/config"
 	"github.com/gin-gonic/gin"
 )
 

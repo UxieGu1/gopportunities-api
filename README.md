@@ -10,26 +10,26 @@ O projeto foi desenvolvido com foco no aprendizado de desenvolvimento backend em
 
 ## 🚀 Funcionalidades
 
-* Cadastro de oportunidades de emprego
-* Consulta de oportunidades
-* Busca de oportunidades por diferentes critérios
-* Atualização de oportunidades
-* Exclusão de oportunidades
-* Validação dos dados recebidos pela API
-* Persistência dos dados em banco SQLite
-* Documentação interativa com Swagger
-* Testes automatizados
-* Execução utilizando Docker e Docker Compose
+- Cadastro de oportunidades de emprego
+- Consulta de oportunidades
+- Busca de oportunidades por diferentes critérios
+- Atualização de oportunidades
+- Exclusão de oportunidades
+- Validação dos dados recebidos pela API
+- Persistência dos dados em banco SQLite
+- Documentação interativa com Swagger
+- Testes automatizados
+- Execução utilizando Docker e Docker Compose
 
 ## 🛠️ Tecnologias utilizadas
 
-* **Go (Golang)** — desenvolvimento do backend
-* **Gin** — criação e gerenciamento das rotas HTTP
-* **GORM** — comunicação com o banco de dados
-* **SQLite** — armazenamento dos dados
-* **Swagger** — documentação e teste dos endpoints
-* **Docker** — containerização da aplicação
-* **Docker Compose** — gerenciamento dos containers
+- **Go (Golang)** — desenvolvimento do backend
+- **Gin** — criação e gerenciamento das rotas HTTP
+- **GORM** — comunicação com o banco de dados
+- **SQLite** — armazenamento dos dados
+- **Swagger** — documentação e teste dos endpoints
+- **Docker** — containerização da aplicação
+- **Docker Compose** — gerenciamento dos containers
 
 ## 📁 Estrutura do projeto
 
@@ -38,20 +38,22 @@ O projeto utiliza uma organização baseada em pacotes, buscando separar as resp
 ```text
 .
 ├── assets/
-├── config/
-├── controllers/
-├── database/
-├── models/
-├── tests/
+├── cmd/
+│   └── api/
+│       └── main.go
+├── internal/
+│   ├── config/
+│   ├── handler/
+│   ├── repository/
+│   ├── router/
+│   ├── schemas/
+│   └── service/
 ├── docs/
-├── handler/
-├── router/
-├── schemas/
+├── .env.example
 ├── docker-compose.yml
 ├── Dockerfile
 ├── Makefile
-├── go.mod
-└── main.go
+└── go.mod
 ```
 
 > A estrutura pode variar conforme a evolução do projeto.
@@ -62,17 +64,17 @@ O projeto utiliza uma organização baseada em pacotes, buscando separar as resp
 
 Antes de iniciar, certifique-se de ter instalado:
 
-* Go
-* Git
-* Docker (opcional)
+- Go
+- Git
+- Docker (opcional)
 
 ### Executando localmente
 
 Clone o repositório:
 
 ```bash
-git clone <URL_DO_SEU_REPOSITORIO>
-cd <NOME_DO_REPOSITORIO>
+git clone github.com/UxieGu1/gopportunities-api
+cd gopportunities-api
 ```
 
 Baixe as dependências:
@@ -84,10 +86,10 @@ go mod download
 Execute a aplicação:
 
 ```bash
-go run .
+go run ./cmd/api
 ```
 
-Por padrão, a API será disponibilizada na porta `8080`.
+Por padrão, a API será disponibilizada na porta `8081`.
 
 ## 📚 Documentação da API
 
@@ -116,6 +118,12 @@ Exemplo:
 
 ```bash
 make run
+```
+
+Para atualizar a documentação do Swagger:
+
+```bash
+make docs
 ```
 
 ## 🐳 Docker
@@ -175,29 +183,29 @@ Este projeto faz parte dos meus estudos em **desenvolvimento backend com Go**.
 
 Durante o desenvolvimento, foram praticados conceitos importantes como:
 
-* Desenvolvimento de APIs REST
-* Routing
-* HTTP methods e status codes
-* CRUD
-* ORM
-* Persistência de dados
-* Estruturação de projetos Go
-* Testes automatizados
-* Documentação de APIs
-* Docker
-* Boas práticas de desenvolvimento backend
+- Desenvolvimento de APIs REST
+- Routing
+- HTTP methods e status codes
+- CRUD
+- ORM
+- Persistência de dados
+- Estruturação de projetos Go
+- Testes automatizados
+- Documentação de APIs
+- Docker
+- Boas práticas de desenvolvimento backend
 
 ## 📌 Próximos passos
 
 Algumas melhorias que podem ser implementadas futuramente:
 
-* [ ] Adicionar autenticação e autorização
-* [ ] Implementar paginação
-* [ ] Adicionar filtros mais avançados
-* [ ] Melhorar a cobertura de testes
-* [ ] Utilizar PostgreSQL em ambiente de produção
-* [ ] Implementar CI/CD
-* [ ] Adicionar observabilidade e logs estruturados
+- [ ] Adicionar autenticação e autorização
+- [ ] Implementar paginação
+- [ ] Adicionar filtros mais avançados
+- [ ] Melhorar a cobertura de testes
+- [ ] Utilizar PostgreSQL em ambiente de produção
+- [ ] Implementar CI/CD
+- [ ] Adicionar observabilidade e logs estruturados
 
 ## 📄 Licença
 

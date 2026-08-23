@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/UxieGu1/gopportunities-api/schemas"
+	"github.com/UxieGu1/gopportunities-api/internal/schemas"
 	"gorm.io/gorm"
 )
 
