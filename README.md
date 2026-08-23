@@ -96,7 +96,7 @@ Por padrão, a API será disponibilizada na porta `8081`.
 Após iniciar a aplicação, a documentação do Swagger pode ser acessada em:
 
 ```text
-http://localhost:8080/swagger/index.html
+http://localhost:8081/swagger/index.html
 ```
 
 Através da interface do Swagger é possível visualizar os endpoints disponíveis e realizar requisições diretamente pelo navegador.
@@ -139,7 +139,7 @@ docker build -t gojob-api .
 Para executar o container:
 
 ```bash
-docker run -p 8080:8080 gojob-api
+docker run --env-file .env -p 8081:8081 gojob-api
 ```
 
 Caso utilize Docker Compose:
