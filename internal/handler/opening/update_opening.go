@@ -1,4 +1,4 @@
-package handler
+package opening
 
 import (
 	"net/http"
@@ -39,7 +39,7 @@ func UpdateOpeningHandler(ctx *gin.Context) {
 		return
 	}
 
-	opening, err := openingService.GetByID(id)
+	opening, err := openingService.GetById(id)
 	if err != nil {
 		sendError(ctx, http.StatusNotFound, "opening not found")
 		return
@@ -49,8 +49,8 @@ func UpdateOpeningHandler(ctx *gin.Context) {
 		opening.Role = request.Role
 	}
 
-	if request.Company != "" {
-		opening.Company = request.Company
+	if request.CompanyID > 0 {
+		opening.CompanyID = request.CompanyID
 	}
 
 	if request.Location != "" {

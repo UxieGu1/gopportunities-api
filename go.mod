@@ -4,6 +4,7 @@ go 1.26.5
 
 require (
 	github.com/gin-gonic/gin v1.12.0
+	github.com/joho/godotenv v1.5.1
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.1
 	github.com/swaggo/swag v1.16.6
@@ -21,7 +22,6 @@ require (
 	github.com/go-openapi/swag/stringutils v0.29.1 // indirect
 	github.com/go-openapi/swag/typeutils v0.29.1 // indirect
 	github.com/go-openapi/swag/yamlutils v0.29.1 // indirect
-	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/mattn/go-sqlite3 v1.14.22 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/mod v0.40.0 // indirect

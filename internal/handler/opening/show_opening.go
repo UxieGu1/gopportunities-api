@@ -1,4 +1,4 @@
-package handler
+package opening
 
 import (
 	"net/http"
@@ -21,7 +21,7 @@ func ShowOpeningHandler(ctx *gin.Context) {
 		sendError(ctx, http.StatusBadRequest, errParamIsRequired("id", "pathParameter").Error())
 		return
 	}
-	opening, err := openingService.GetByID(id)
+	opening, err := openingService.GetById(id)
 	if err != nil {
 		sendError(ctx, http.StatusNotFound, "opening not found")
 		return

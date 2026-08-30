@@ -1,4 +1,4 @@
-package handler
+package opening
 
 import (
 	"net/http"
@@ -34,7 +34,7 @@ func CreateOpeningHandler(context *gin.Context) {
 
 	opening := schemas.Opening{
 		Role:     request.Role,
-		Company:  request.Company,
+		CompanyID:  request.CompanyID,
 		Location: request.Location,
 		Remote:   *request.Remote,
 		Link:     request.Link,

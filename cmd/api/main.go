@@ -7,7 +7,6 @@ package main
 
 import (
 	"github.com/UxieGu1/gopportunities-api/internal/config"
-	"github.com/UxieGu1/gopportunities-api/internal/handler"
 	"github.com/UxieGu1/gopportunities-api/internal/router"
 	"github.com/joho/godotenv"
 )
@@ -25,8 +24,6 @@ func main() {
 		logger.Errorf("config initialization error: %v", err)
 		return
 	}
-
-	handler.InitializeHandler()
 
 	router.Initialize()
 }

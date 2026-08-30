@@ -1,4 +1,4 @@
-package handler
+package company
 
 import (
 	"fmt"
@@ -24,29 +24,27 @@ func sendSuccess(context *gin.Context, op string, data interface{}) {
 	})
 }
 
-type ErrorResponse struct {
-	Message   string `json:"message"`
-	ErrorCode string `json:"errorCode"`
+type CreateCompanyResponse struct {
+	Message string                  `json:"message"`
+	Data    schemas.CompanyResponse `json:"data"`
 }
 
-type CreateOpeningResponse struct {
+type DeleteCompanyResponse struct {
 	Message string                  `json:"message"`
-	Data    schemas.OpeningResponse `json:"data"`
+	Data    schemas.CompanyResponse `json:"data"`
 }
 
-type DeleteOpeningResponse struct {
+type ShowCompanyResponse struct {
 	Message string                  `json:"message"`
-	Data    schemas.OpeningResponse `json:"data"`
+	Data    schemas.CompanyResponse `json:"data"`
 }
-type ShowOpeningResponse struct {
-	Message string                  `json:"message"`
-	Data    schemas.OpeningResponse `json:"data"`
-}
-type ListOpeningsResponse struct {
+
+type ListCompaniesResponse struct {
 	Message string                    `json:"message"`
-	Data    []schemas.OpeningResponse `json:"data"`
+	Data    []schemas.CompanyResponse `json:"data"`
 }
-type UpdateOpeningResponse struct {
+
+type UpdateCompanyResponse struct {
 	Message string                  `json:"message"`
-	Data    schemas.OpeningResponse `json:"data"`
+	Data    schemas.CompanyResponse `json:"data"`
 }

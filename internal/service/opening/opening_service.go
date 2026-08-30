@@ -37,7 +37,7 @@ func (s *OpeningService) Delete(opening *schemas.Opening) error {
 	return s.Repository.Delete(opening)
 }
 
-func (s *OpeningService) GetByID(id string) (schemas.Opening, error) {
+func (s *OpeningService) GetById(id string) (schemas.Opening, error) {
 	var openingID uint
 	if _, err := fmt.Sscanf(id, "%d", &openingID); err != nil {
 		return schemas.Opening{}, errors.New("invalid opening id")

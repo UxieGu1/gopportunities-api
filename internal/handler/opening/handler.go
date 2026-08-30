@@ -1,8 +1,8 @@
-package handler
+package opening 
 
 import (
 	"github.com/UxieGu1/gopportunities-api/internal/config"
-	"github.com/UxieGu1/gopportunities-api/internal/service"
+	"github.com/UxieGu1/gopportunities-api/internal/service/opening" 
 	"gorm.io/gorm"
 )
 
@@ -13,7 +13,7 @@ var (
 )
 
 func InitializeHandler() {
-	logger = config.GetLogger("handler")
+	logger = config.GetLogger("opening_handler")
 	db = config.GetSQLite()
-	openingService = service.NewOpeningService(db)
+	openingService = service.NewOpeningService(db) 
 }
