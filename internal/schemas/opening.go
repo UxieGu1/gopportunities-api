@@ -8,7 +8,8 @@ import (
 type Opening struct {
 	gorm.Model
 	Role     string
-	Company  string
+	CompanyID uint `gorm:"not null"`
+	Company  Company
 	Location string
 	Remote   bool
 	Link     string
@@ -18,7 +19,7 @@ type Opening struct {
 type OpeningResponse struct {
 	ID        uint      `json:"id"`
 	Role      string    `json:"role"`
-	Company   string    `json:"company"`
+	CompanyID uint    	`json:"companyId"`
 	Location  string    `json:"location"`
 	Remote    bool      `json:"remote"`
 	Link      string    `json:"link"`
