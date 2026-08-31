@@ -9,7 +9,7 @@ import (
 
 type CompanyService interface {
 	Create(company *schemas.Company) (*schemas.CompanyResponse, error)
-	GetById(id uint) (*schemas.CompanyResponse, error)
+	GetByID(id uint) (*schemas.CompanyResponse, error)
 	GetAll() ([]schemas.CompanyResponse, error)
 	Update(id uint, companyData *schemas.Company) (*schemas.CompanyResponse, error)
 	Delete(id uint) error
@@ -49,8 +49,8 @@ func (s *companyService) Create(company *schemas.Company) (*schemas.CompanyRespo
 	return mapToResponse(company), nil
 }
 
-func (s *companyService) GetById(id uint) (*schemas.CompanyResponse, error) {
-	company, err := s.repo.GetById(id)
+func (s *companyService) GetByID(id uint) (*schemas.CompanyResponse, error) {
+	company, err := s.repo.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (s *companyService) GetAll() ([]schemas.CompanyResponse, error) {
 }
 
 func (s *companyService) Update(id uint, companyData *schemas.Company) (*schemas.CompanyResponse, error) {
-	company, err := s.repo.GetById(id)
+	company, err := s.repo.GetByID(id)
 	if err != nil {
 		return nil, errors.New("empresa não encontrada")
 	}
@@ -92,7 +92,7 @@ func (s *companyService) Update(id uint, companyData *schemas.Company) (*schemas
 }
 
 func (s *companyService) Delete(id uint) error {
-	if _, err := s.repo.GetById(id); err != nil {
+	if _, err := s.repo.GetByID(id); err != nil {
 		return errors.New("empresa não encontrada")
 	}
 

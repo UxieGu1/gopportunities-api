@@ -7,18 +7,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateCompanyHandler(ctx *gin.Context) {
+func CreateCompanyHandler(context *gin.Context) {
 	var request CreateCompanyRequest
 
-	if err := ctx.BindJSON(&request); err != nil {
+	if err := context.BindJSON(&request); err != nil {
 		logger.Errorf("validation error: %v", err.Error())
-		sendError(ctx, http.StatusBadRequest, err.Error())
+		sendError(context, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	if err := request.Validate(); err != nil {
 		logger.Errorf("validation error: %v", err.Error())
-		sendError(ctx, http.StatusBadRequest, err.Error())
+		sendError(context, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -33,9 +33,9 @@ func CreateCompanyHandler(ctx *gin.Context) {
 	response, err := companyService.Create(&company)
 	if err != nil {
 		logger.Errorf("error creating company: %v", err.Error())
-		sendError(ctx, http.StatusInternalServerError, "error creating company on database")
+		sendError(context, http.StatusInternalServerError, "error creating company on database")
 		return
 	}
 
-	sendSuccess(ctx, "create-company", response)
+	sendSuccess(context, "create-company", response)
 }

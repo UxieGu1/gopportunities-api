@@ -1,8 +1,8 @@
 package router
 
 import (
-
 	docs "github.com/UxieGu1/gopportunities-api/docs"
+	"github.com/UxieGu1/gopportunities-api/internal/handler/candidate"
 	"github.com/UxieGu1/gopportunities-api/internal/handler/company"
 	"github.com/UxieGu1/gopportunities-api/internal/handler/opening"
 	"github.com/UxieGu1/gopportunities-api/internal/handler/user"
@@ -15,6 +15,7 @@ func initializeRoutes(router *gin.Engine) {
 	opening.InitializeHandler()
 	company.InitializeHandler()
 	user.InitializeHandler()
+	candidate.InitializeHandler()
 
 	basePath := "/api/v1"
 	docs.SwaggerInfo.BasePath = basePath
@@ -44,6 +45,11 @@ func initializeRoutes(router *gin.Engine) {
 		v1.DELETE("/companies/:id", company.DeleteCompanyHandler)
 
 		//Candidate
+		v1.GET("/candidates", candidate.ListCandidatesHandler)
+		v1.GET("/candidates/:id", candidate.ShowCandidateHandler)
+		v1.POST("/candidates", candidate.CreateCandidateHandler)
+		v1.PUT("/candidates/:id", candidate.UpdateCandidateHandler)
+		v1.DELETE("/candidates/:id", candidate.DeleteCandidateHandler)
 
 		//Application
 	}

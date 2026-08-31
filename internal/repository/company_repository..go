@@ -7,7 +7,7 @@ import (
 
 type CompanyRepository interface {
 	Create(company *schemas.Company) error
-	GetById(id uint) (*schemas.Company, error)
+	GetByID(id uint) (*schemas.Company, error)
 	GetAll() ([]schemas.Company, error)
 	Update(company *schemas.Company) error
 	Delete(id uint) error
@@ -25,7 +25,7 @@ func (r *companyRepository) Create(company *schemas.Company) error {
 	return r.db.Create(company).Error
 }
 
-func (r *companyRepository) GetById(id uint) (*schemas.Company, error) {
+func (r *companyRepository) GetByID(id uint) (*schemas.Company, error) {
 	var company schemas.Company
 
 	err := r.db.Preload("Openings").First(&company, id).Error

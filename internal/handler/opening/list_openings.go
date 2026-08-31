@@ -13,12 +13,12 @@ import (
 // @Success 200 {array} schemas.Opening
 // @Failure 500 {object} map[string]interface{}
 // @Router /openings [get]
-func ListOpeningsHandler(ctx *gin.Context) {
+func ListOpeningsHandler(context *gin.Context) {
 	openings, err := openingService.List()
 	if err != nil {
-		sendError(ctx, http.StatusInternalServerError, "error listing openings")
+		sendError(context, http.StatusInternalServerError, "error listing openings")
 		return
 	}
 
-	sendSuccess(ctx, "list-openings", openings)
+	sendSuccess(context, "list-openings", openings)
 }

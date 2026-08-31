@@ -8,30 +8,30 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UpdateCompanyHandler(ctx *gin.Context) {
+func UpdateCompanyHandler(context *gin.Context) {
 	var request UpdateCompanyRequest
 
-	if err := ctx.BindJSON(&request); err != nil {
+	if err := context.BindJSON(&request); err != nil {
 		logger.Errorf("validation error: %v", err.Error())
-		sendError(ctx, http.StatusBadRequest, err.Error())
+		sendError(context, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	if err := request.Validate(); err != nil {
 		logger.Errorf("validation error: %v", err.Error())
-		sendError(ctx, http.StatusBadRequest, err.Error())
+		sendError(context, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	idStr := ctx.Query("id")
+	idStr := context.Query("id")
 	if idStr == "" {
-		sendError(ctx, http.StatusBadRequest, errParamIsRequired("id", "queryParameter").Error())
+		sendError(context, http.StatusBadRequest, errParamIsRequired("id", "queryParameter").Error())
 		return
 	}
 
 	id, err := strconv.ParseUint(idStr, 10, 32)
 	if err != nil {
-		sendError(ctx, http.StatusBadRequest, "invalid id format")
+		sendError(context, http.StatusBadRequest, "invalid id format")
 		return
 	}
 
@@ -45,9 +45,9 @@ func UpdateCompanyHandler(ctx *gin.Context) {
 
 	response, err := companyService.Update(uint(id), &companyData)
 	if err != nil {
-		sendError(ctx, http.StatusInternalServerError, "error updating company")
+		sendError(context, http.StatusInternalServerError, "error updating company")
 		return
 	}
 
-	sendSuccess(ctx, "update-company", response)
+	sendSuccess(context, "update-company", response)
 }

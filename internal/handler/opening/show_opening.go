@@ -15,17 +15,17 @@ import (
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
 // @Router /openings/{id} [get]
-func ShowOpeningHandler(ctx *gin.Context) {
-	id := ctx.Param("id")
+func ShowOpeningHandler(context *gin.Context) {
+	id := context.Param("id")
 	if id == "" {
-		sendError(ctx, http.StatusBadRequest, errParamIsRequired("id", "pathParameter").Error())
+		sendError(context, http.StatusBadRequest, errParamIsRequired("id", "pathParameter").Error())
 		return
 	}
-	opening, err := openingService.GetById(id)
+	opening, err := openingService.GetByID(id)
 	if err != nil {
-		sendError(ctx, http.StatusNotFound, "opening not found")
+		sendError(context, http.StatusNotFound, "opening not found")
 		return
 	}
 
-	sendSuccess(ctx, "show-opening", opening)
+	sendSuccess(context, "show-opening", opening)
 }

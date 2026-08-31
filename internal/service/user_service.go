@@ -34,7 +34,7 @@ func (s *userService) Create(user *schemas.User) error {
 }
 
 func (s *userService) GetByID(id uint) (*schemas.User, error) {
-	return s.repo.GetById(id)
+	return s.repo.GetByID(id)
 }
 
 func (s *userService) GetByEmail(email string) (*schemas.User, error) {
@@ -58,5 +58,5 @@ func (s *userService) GetByIdStr(id string) (*schemas.User, error) {
 	if _, err := fmt.Sscanf(id, "%d", &userID); err != nil {
 		return nil, errors.New("invalid user id format")
 	}
-	return s.repo.GetById(userID)
+	return s.repo.GetByID(userID)
 }

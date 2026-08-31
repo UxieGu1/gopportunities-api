@@ -6,12 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ListCompaniesHandler(ctx *gin.Context) {
+func ListCompaniesHandler(context *gin.Context) {
 	responses, err := companyService.GetAll()
 	if err != nil {
-		sendError(ctx, http.StatusInternalServerError, "error listing companies")
+		sendError(context, http.StatusInternalServerError, "error listing companies")
 		return
 	}
 
-	sendSuccess(ctx, "list-companies", responses)
+	sendSuccess(context, "list-companies", responses)
 }

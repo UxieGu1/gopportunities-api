@@ -25,7 +25,7 @@ func DeleteOpeningHandler(context *gin.Context) {
 		return
 	}
 
-	opening, err := openingService.GetById(id)
+	opening, err := openingService.GetByID(id)
 	if err != nil {
 		sendError(context, http.StatusNotFound, fmt.Sprintf("opening with id: %s not found", id))
 		return

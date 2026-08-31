@@ -8,7 +8,7 @@ import (
 
 type UserRepository interface {
 	Create(user *schemas.User) error
-	GetById(id uint) (*schemas.User, error)
+	GetByID(id uint) (*schemas.User, error)
 	GetByEmail(email string) (*schemas.User, error)
 	GetAll() ([]schemas.User, error)
 	Update(user *schemas.User) error
@@ -27,7 +27,7 @@ func (r *userRepository) Create(user *schemas.User) error {
 	return r.db.Create(user).Error
 }
 
-func (r *userRepository) GetById(id uint) (*schemas.User, error) {
+func (r *userRepository) GetByID(id uint) (*schemas.User, error) {
 	var user schemas.User
 	if err := r.db.First(&user, id).Error; err != nil {
 		return nil, err

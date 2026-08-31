@@ -14,7 +14,7 @@ type OpeningService interface {
 	Create(opening *schemas.Opening) error
 	Update(opening *schemas.Opening) error
 	Delete(opening *schemas.Opening) error
-	GetById(id string) (schemas.Opening, error)
+	GetByID(id string) (schemas.Opening, error)
 }
 
 type openingService struct {
@@ -45,7 +45,7 @@ func (s *openingService) Delete(opening *schemas.Opening) error {
 	return s.repo.Delete(opening)
 }
 
-func (s *openingService) GetById(id string) (schemas.Opening, error) {
+func (s *openingService) GetByID(id string) (schemas.Opening, error) {
 	var openingID uint
 	if _, err := fmt.Sscanf(id, "%d", &openingID); err != nil {
 		return schemas.Opening{}, errors.New("invalid opening id")

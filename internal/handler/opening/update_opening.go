@@ -18,30 +18,30 @@ import (
 // @Failure 404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /openings/{id} [put]
-func UpdateOpeningHandler(ctx *gin.Context) {
+func UpdateOpeningHandler(context *gin.Context) {
 	request := UpdateOpeningRequest{}
 
-	if err := ctx.BindJSON(&request); err != nil {
+	if err := context.BindJSON(&request); err != nil {
 		logger.Errorf("json binding error: %v", err.Error())
-		sendError(ctx, http.StatusBadRequest, err.Error())
+		sendError(context, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	if err := request.Validate(); err != nil {
 		logger.Errorf("validation error: %v", err.Error())
-		sendError(ctx, http.StatusBadRequest, err.Error())
+		sendError(context, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	id := ctx.Param("id")
+	id := context.Param("id")
 	if id == "" {
-		sendError(ctx, http.StatusBadRequest, errParamIsRequired("id", "pathParameter").Error())
+		sendError(context, http.StatusBadRequest, errParamIsRequired("id", "pathParameter").Error())
 		return
 	}
 
-	opening, err := openingService.GetById(id)
+	opening, err := openingService.GetByID(id)
 	if err != nil {
-		sendError(ctx, http.StatusNotFound, "opening not found")
+		sendError(context, http.StatusNotFound, "opening not found")
 		return
 	}
 
@@ -71,8 +71,8 @@ func UpdateOpeningHandler(ctx *gin.Context) {
 
 	if err := openingService.Update(&opening); err != nil {
 		logger.Errorf("error updating opening: %v", err.Error())
-		sendError(ctx, http.StatusInternalServerError, "error updating opening")
+		sendError(context, http.StatusInternalServerError, "error updating opening")
 		return
 	}
-	sendSuccess(ctx, "update-opening", opening)
+	sendSuccess(context, "update-opening", opening)
 }
