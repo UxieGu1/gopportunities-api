@@ -1,9 +1,11 @@
 package router
 
 import (
+
 	docs "github.com/UxieGu1/gopportunities-api/docs"
 	"github.com/UxieGu1/gopportunities-api/internal/handler/company"
 	"github.com/UxieGu1/gopportunities-api/internal/handler/opening"
+	"github.com/UxieGu1/gopportunities-api/internal/handler/user"
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -12,6 +14,7 @@ import (
 func initializeRoutes(router *gin.Engine) {
 	opening.InitializeHandler()
 	company.InitializeHandler()
+	user.InitializeHandler()
 
 	basePath := "/api/v1"
 	docs.SwaggerInfo.BasePath = basePath
@@ -20,6 +23,11 @@ func initializeRoutes(router *gin.Engine) {
 	{
 
 		//User
+		v1.GET("/users", user.ListUsersHandler)
+		v1.GET("/users/:id", user.ShowUserHandler)
+		v1.POST("/users", user.CreateUserHandler)
+		v1.PUT("/users/:id", user.UpdateUserHandler)
+		v1.DELETE("/users/:id", user.DeleteUserHandler)
 
 		//Opening
 		v1.GET("/openings", opening.ListOpeningsHandler)
