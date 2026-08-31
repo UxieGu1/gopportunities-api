@@ -5,38 +5,47 @@ import (
 	"gorm.io/gorm"
 )
 
-type OpeningRepository struct {
-	DB *gorm.DB
+
+type OpeningRepository interface {
+	List() ([]schemas.Opening, error)
+	Show(id uint) (schemas.Opening, error)
+	Create(opening *schemas.Opening) error
+	Update(opening *schemas.Opening) error
+	Delete(opening *schemas.Opening) error
 }
 
-func NewOpeningRepository(db *gorm.DB) *OpeningRepository {
-	return &OpeningRepository{DB: db}
+type openingRepository struct {
+	db *gorm.DB
 }
 
-func (r *OpeningRepository) List() ([]schemas.Opening, error) {
-	openings := []schemas.Opening{}
-	if err := r.DB.Find(&openings).Error; err != nil {
+func NewOpeningRepository(db *gorm.DB) OpeningRepository {
+	return &openingRepository{db: db}
+}
+
+func (r *openingRepository) List() ([]schemas.Opening, error) {
+	var openings []schemas.Opening
+	if err := r.db.Find(&openings).Error; err != nil {
 		return nil, err
 	}
 	return openings, nil
 }
 
-func (r *OpeningRepository) Show(id uint) (schemas.Opening, error) {
-	opening := schemas.Opening{}
-	if err := r.DB.First(&opening, id).Error; err != nil {
+func (r *openingRepository) Show(id uint) (schemas.Opening, error) {
+	var opening schemas.Opening
+	if err := r.db.First(&opening, id).Error; err != nil {
 		return schemas.Opening{}, err
 	}
 	return opening, nil
 }
 
-func (r *OpeningRepository) Create(opening *schemas.Opening) error {
-	return r.DB.Create(opening).Error
+func (r *openingRepository) Create(opening *schemas.Opening) error {
+	return r.db.Create(opening).Error
 }
 
-func (r *OpeningRepository) Update(opening *schemas.Opening) error {
-	return r.DB.Save(opening).Error
+func (r *openingRepository) Update(opening *schemas.Opening) error {
+	return r.db.Save(opening).Error
 }
 
-func (r *OpeningRepository) Delete(opening *schemas.Opening) error {
-	return r.DB.Delete(opening).Error
+func (r *openingRepository) Delete(opening *schemas.Opening) error {
+	return r.db.Delete(opening).Error
 }
