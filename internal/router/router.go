@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/UxieGu1/gopportunities-api/internal/config"
+	"github.com/UxieGu1/gopportunities-api/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,8 +18,8 @@ func Initialize() {
 	}
 
 	router := gin.Default()
+	router.Use(middleware.CorsMiddleware())
 	logger := config.GetLogger("http")
-
 	router.Use(func(c *gin.Context) {
 		requestID := c.GetHeader("X-Request-ID")
 		if requestID == "" {
