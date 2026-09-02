@@ -14,7 +14,7 @@ type UserService interface {
 	GetByID(id uint) (*schemas.User, error)
 	GetByEmail(email string) (*schemas.User, error)
 	GetAll() ([]schemas.User, error)
-	Update(user *schemas.User) error
+	Update(user *schemas.User, rawPassword string) error
 	Delete(id uint) error
 	GetByIdStr(id string) (*schemas.User, error)
 	Login(email, password string) (*schemas.User, error)
@@ -36,8 +36,8 @@ func (s *userService) Create(user *schemas.User, rawPassword string) error {
 		return errors.New("a senha é obrigatória")
 	}
 
-	hashedBytes, err := bcrypt.GenerateFromPassword([]byte (rawPassword), 14)
-	if err != nil{
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(rawPassword), 14)
+	if err != nil {
 		return fmt.Errorf("falha ao criptografar a senha: %v", err)
 	}
 	user.PasswordHash = string(hashedBytes)
@@ -56,7 +56,14 @@ func (s *userService) GetAll() ([]schemas.User, error) {
 	return s.repo.GetAll()
 }
 
-func (s *userService) Update(user *schemas.User) error {
+func (s *userService) Update(user *schemas.User, rawPassword string) error {
+	if rawPassword != "" {
+		hashedBytes, err := bcrypt.GenerateFromPassword([]byte(rawPassword), 14)
+		if err != nil {
+			return fmt.Errorf("falha ao criptografar a senha: %v", err)
+		}
+		user.PasswordHash = string(hashedBytes)
+	}
 	return s.repo.Update(user)
 }
 
