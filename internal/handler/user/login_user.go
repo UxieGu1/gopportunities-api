@@ -46,6 +46,7 @@ func LoginUserHandler(ctx *gin.Context) {
 		sendError(ctx, http.StatusInternalServerError, "erro interno ao gerar credencial")
 		return
 	}
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "login realizado com sucesso",
 		"data": schemas.UserResponse{
@@ -55,16 +56,6 @@ func LoginUserHandler(ctx *gin.Context) {
 			CreatedAt: user.CreatedAt,
 			UpdatedAt: user.UpdatedAt,
 		},
-		"token": token, 
+		"token": token,
 	})
-
-	response := schemas.UserResponse{
-		ID:        user.ID,
-		Email:     user.Email,
-		Role:      user.Role,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
-	}
-
-	sendSuccess(ctx, "login-user", response)
 }

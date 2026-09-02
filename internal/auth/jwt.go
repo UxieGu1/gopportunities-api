@@ -15,7 +15,7 @@ var (
 	tokenExpiresIn time.Duration
 )
 
-func init() {
+func Configure() {
 	secret := os.Getenv("JWT_SECRET")
 	if secret == "" {
 		secret = "super-secret-key-change-me"
@@ -33,6 +33,10 @@ func init() {
 			tokenExpiresIn = time.Duration(hours) * time.Hour
 		}
 	}
+}
+
+func init() {
+	Configure()
 }
 
 type JwtCustomClaims struct {

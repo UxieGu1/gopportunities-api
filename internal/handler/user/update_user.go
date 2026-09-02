@@ -44,14 +44,11 @@ func UpdateUserHandler(context *gin.Context) {
 	if request.Email != "" {
 		user.Email = request.Email
 	}
-	if request.Password != "" {
-		user.PasswordHash = request.Password 
-	}
 	if request.Role != "" {
 		user.Role = request.Role
 	}
 
-	if err := userService.Update(user); err != nil {
+	if err := userService.Update(user, request.Password); err != nil {
 		logger.Errorf("error updating user: %v", err.Error())
 		sendError(context, http.StatusInternalServerError, "error updating user")
 		return

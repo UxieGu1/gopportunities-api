@@ -6,6 +6,7 @@
 package main
 
 import (
+	"github.com/UxieGu1/gopportunities-api/internal/auth"
 	"github.com/UxieGu1/gopportunities-api/internal/config"
 	"github.com/UxieGu1/gopportunities-api/internal/router"
 	"github.com/joho/godotenv"
@@ -17,6 +18,7 @@ var (
 
 func main() {
 	_ = godotenv.Load()
+	auth.Configure()
 
 	logger = config.GetLogger("main")
 	err := config.Init()
