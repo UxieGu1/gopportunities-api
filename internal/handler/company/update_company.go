@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/UxieGu1/gopportunities-api/internal/middleware"
 	"github.com/UxieGu1/gopportunities-api/internal/schemas"
 	"github.com/gin-gonic/gin"
 )
@@ -23,9 +24,9 @@ func UpdateCompanyHandler(context *gin.Context) {
 		return
 	}
 
-	idStr := context.Query("id")
+	idStr := context.Param("id")
 	if idStr == "" {
-		sendError(context, http.StatusBadRequest, errParamIsRequired("id", "queryParameter").Error())
+		sendError(context, http.StatusBadRequest, errParamIsRequired("id", "pathParameter").Error())
 		return
 	}
 
@@ -43,9 +44,14 @@ func UpdateCompanyHandler(context *gin.Context) {
 		Location:    request.Location,
 	}
 
-	response, err := companyService.Update(uint(id), &companyData)
+	var response *schemas.CompanyResponse
+	if middleware.GetUserRole(context) == "ADMIN" {
+		response, err = companyService.Update(uint(id), &companyData)
+	} else {
+		response, err = companyService.UpdateForUser(uint(id), middleware.GetUserID(context), &companyData)
+	}
 	if err != nil {
-		sendError(context, http.StatusInternalServerError, "error updating company")
+		sendError(context, http.StatusNotFound, err.Error())
 		return
 	}
 

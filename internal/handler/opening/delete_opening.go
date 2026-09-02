@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/UxieGu1/gopportunities-api/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,7 +13,7 @@ import (
 // @Tags openings
 // @Produce json
 // @Param id path int true "ID da oportunidade"
-// @Success 200 {object} DeleteOpeningResponse	
+// @Success 200 {object} DeleteOpeningResponse
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
@@ -31,7 +32,13 @@ func DeleteOpeningHandler(context *gin.Context) {
 		return
 	}
 
-	if err := openingService.Delete(&opening); err != nil {
+	var deleteErr error
+	if middleware.GetUserRole(context) == "ADMIN" {
+		deleteErr = openingService.Delete(&opening)
+	} else {
+		deleteErr = openingService.DeleteForUser(&opening, middleware.GetUserID(context))
+	}
+	if deleteErr != nil {
 		sendError(context, http.StatusInternalServerError, fmt.Sprintf("error deleting opening with id: %s", id))
 		return
 	}

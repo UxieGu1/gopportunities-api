@@ -3,6 +3,7 @@ package opening
 import (
 	"net/http"
 
+	"github.com/UxieGu1/gopportunities-api/internal/middleware"
 	"github.com/UxieGu1/gopportunities-api/internal/schemas"
 	"github.com/gin-gonic/gin"
 )
@@ -33,15 +34,22 @@ func CreateOpeningHandler(context *gin.Context) {
 	}
 
 	opening := schemas.Opening{
-		Role:     request.Role,
-		CompanyID:  request.CompanyID,
-		Location: request.Location,
-		Remote:   *request.Remote,
-		Link:     request.Link,
-		Salary:   request.Salary,
+		Role:      request.Role,
+		CompanyID: request.CompanyID,
+		Location:  request.Location,
+		Remote:    *request.Remote,
+		Link:      request.Link,
+		Salary:    request.Salary,
+		Status:    request.Status,
 	}
 
-	if err := openingService.Create(&opening); err != nil {
+	var err error
+	if middleware.GetUserRole(context) == "ADMIN" {
+		err = openingService.Create(&opening)
+	} else {
+		err = openingService.CreateForUser(&opening, middleware.GetUserID(context))
+	}
+	if err != nil {
 		logger.Errorf("Error creating opening: %v", err.Error())
 		sendError(context, http.StatusInternalServerError, "error creating opening on database")
 		return

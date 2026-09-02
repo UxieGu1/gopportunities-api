@@ -5,11 +5,11 @@ import (
 	"gorm.io/gorm"
 )
 
-
 type OpeningRepository interface {
 	List() ([]schemas.Opening, error)
 	Show(id uint) (schemas.Opening, error)
 	Create(opening *schemas.Opening) error
+	CompanyBelongsToUser(companyID, userID uint) (bool, error)
 	Update(opening *schemas.Opening) error
 	Delete(opening *schemas.Opening) error
 }
@@ -40,6 +40,14 @@ func (r *openingRepository) Show(id uint) (schemas.Opening, error) {
 
 func (r *openingRepository) Create(opening *schemas.Opening) error {
 	return r.db.Create(opening).Error
+}
+
+func (r *openingRepository) CompanyBelongsToUser(companyID, userID uint) (bool, error) {
+	var count int64
+	err := r.db.Model(&schemas.Company{}).
+		Where("id = ? AND user_id = ?", companyID, userID).
+		Count(&count).Error
+	return count > 0, err
 }
 
 func (r *openingRepository) Update(opening *schemas.Opening) error {

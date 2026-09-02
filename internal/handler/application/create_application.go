@@ -3,6 +3,7 @@ package application
 import (
 	"net/http"
 
+	"github.com/UxieGu1/gopportunities-api/internal/middleware"
 	"github.com/UxieGu1/gopportunities-api/internal/schemas"
 	"github.com/gin-gonic/gin"
 )
@@ -22,8 +23,14 @@ func CreateApplicationHandler(ctx *gin.Context) {
 		return
 	}
 
+	candidate, err := candidateService.GetByUserID(middleware.GetUserID(ctx))
+	if err != nil {
+		sendError(ctx, http.StatusBadRequest, "crie seu perfil de candidato antes de se candidatar")
+		return
+	}
+
 	application := schemas.Application{
-		CandidateID: request.CandidateID,
+		CandidateID: candidate.ID,
 		OpeningID:   request.OpeningID,
 		Notes:       request.Notes,
 	}

@@ -3,6 +3,7 @@ package opening
 import (
 	"net/http"
 
+	"github.com/UxieGu1/gopportunities-api/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -49,10 +50,6 @@ func UpdateOpeningHandler(context *gin.Context) {
 		opening.Role = request.Role
 	}
 
-	if request.CompanyID > 0 {
-		opening.CompanyID = request.CompanyID
-	}
-
 	if request.Location != "" {
 		opening.Location = request.Location
 	}
@@ -68,10 +65,19 @@ func UpdateOpeningHandler(context *gin.Context) {
 	if request.Salary > 0 {
 		opening.Salary = request.Salary
 	}
+	if request.Status != "" {
+		opening.Status = request.Status
+	}
 
-	if err := openingService.Update(&opening); err != nil {
-		logger.Errorf("error updating opening: %v", err.Error())
-		sendError(context, http.StatusInternalServerError, "error updating opening")
+	var updateErr error
+	if middleware.GetUserRole(context) == "ADMIN" {
+		updateErr = openingService.Update(&opening)
+	} else {
+		updateErr = openingService.UpdateForUser(&opening, middleware.GetUserID(context))
+	}
+	if updateErr != nil {
+		logger.Errorf("error updating opening: %v", updateErr.Error())
+		sendError(context, http.StatusForbidden, updateErr.Error())
 		return
 	}
 	sendSuccess(context, "update-opening", opening)

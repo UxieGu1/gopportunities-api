@@ -6,17 +6,16 @@ import (
 	"gorm.io/gorm"
 )
 
-
 type Application struct {
 	gorm.Model
-	CandidateID uint `gorm:"not null"`	
+	CandidateID uint `gorm:"not null;uniqueIndex:idx_candidate_opening"`
 	Candidate   Candidate
 
-	OpeningID 	uint `gorm:"not null"`
-	Opening 	Opening
+	OpeningID uint `gorm:"not null;uniqueIndex:idx_candidate_opening"`
+	Opening   Opening
 
-	Status      string    `gorm:"default:'APPLIED'"` // APPLIED, REVIEWING, INTERVIEW, REJECTED, HIRED
-	Notes 		string
+	Status string `gorm:"default:'APPLIED'"` // APPLIED, REVIEWING, INTERVIEW, REJECTED, HIRED
+	Notes  string
 }
 
 type ApplicationResponse struct {
@@ -25,6 +24,6 @@ type ApplicationResponse struct {
 	OpeningID   uint      `json:"openingId"`
 	Status      string    `json:"status"`
 	Notes       string    `json:"notes"`
-	CreatedAt 	time.Time `json:"createdAt"`
-	UpdatedAt 	time.Time `json:"updatedAt"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
 }

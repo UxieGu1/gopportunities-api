@@ -10,6 +10,8 @@ import (
 type CandidateService interface {
 	Create(candidate *schemas.Candidate) error
 	GetByID(id uint) (*schemas.Candidate, error)
+	GetByIDForUser(id, userID uint) (*schemas.Candidate, error)
+	GetByUserID(userID uint) (*schemas.Candidate, error)
 	GetByEmail(email string) (*schemas.Candidate, error)
 	GetAll() ([]schemas.Candidate, error)
 	Update(candidate *schemas.Candidate) error
@@ -25,14 +27,22 @@ func NewCandidateService(repo repository.CandidateRepository) CandidateService {
 }
 
 func (s *candidateService) Create(candidate *schemas.Candidate) error {
-	if candidate.User.Email == "" {
-		return errors.New("o email do usuário associado é obrigatório")
+	if candidate.UserID == 0 {
+		return errors.New("o usuário associado é obrigatório")
 	}
 	return s.repo.Create(candidate)
 }
 
 func (s *candidateService) GetByID(id uint) (*schemas.Candidate, error) {
 	return s.repo.GetByID(id)
+}
+
+func (s *candidateService) GetByIDForUser(id, userID uint) (*schemas.Candidate, error) {
+	return s.repo.GetByIDForUser(id, userID)
+}
+
+func (s *candidateService) GetByUserID(userID uint) (*schemas.Candidate, error) {
+	return s.repo.GetByUserID(userID)
 }
 
 func (s *candidateService) GetByEmail(email string) (*schemas.Candidate, error) {

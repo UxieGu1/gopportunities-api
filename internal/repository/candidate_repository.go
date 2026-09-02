@@ -8,6 +8,8 @@ import (
 type CandidateRepository interface {
 	Create(candidate *schemas.Candidate) error
 	GetByID(id uint) (*schemas.Candidate, error)
+	GetByIDForUser(id, userID uint) (*schemas.Candidate, error)
+	GetByUserID(userID uint) (*schemas.Candidate, error)
 	GetByEmail(email string) (*schemas.Candidate, error)
 	GetAll() ([]schemas.Candidate, error)
 	Update(candidate *schemas.Candidate) error
@@ -29,6 +31,22 @@ func (r *candidateRepository) Create(candidate *schemas.Candidate) error {
 func (r *candidateRepository) GetByID(id uint) (*schemas.Candidate, error) {
 	var candidate schemas.Candidate
 	if err := r.db.Preload("User").First(&candidate, id).Error; err != nil {
+		return nil, err
+	}
+	return &candidate, nil
+}
+
+func (r *candidateRepository) GetByIDForUser(id, userID uint) (*schemas.Candidate, error) {
+	var candidate schemas.Candidate
+	if err := r.db.Preload("User").Where("id = ? AND user_id = ?", id, userID).First(&candidate).Error; err != nil {
+		return nil, err
+	}
+	return &candidate, nil
+}
+
+func (r *candidateRepository) GetByUserID(userID uint) (*schemas.Candidate, error) {
+	var candidate schemas.Candidate
+	if err := r.db.Preload("User").Where("user_id = ?", userID).First(&candidate).Error; err != nil {
 		return nil, err
 	}
 	return &candidate, nil

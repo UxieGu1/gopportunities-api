@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/UxieGu1/gopportunities-api/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,6 +19,16 @@ func DeleteCandidateHandler(context *gin.Context) {
 	if err != nil {
 		sendError(context, http.StatusBadRequest, "invalid id format")
 		return
+	}
+
+	userID := middleware.GetUserID(context)
+	if middleware.GetUserRole(context) != "ADMIN" {
+		candidate, err := candidateService.GetByIDForUser(uint(id), userID)
+		if err != nil {
+			sendError(context, http.StatusNotFound, "candidate not found")
+			return
+		}
+		_ = candidate
 	}
 
 	if err := candidateService.Delete(uint(id)); err != nil {

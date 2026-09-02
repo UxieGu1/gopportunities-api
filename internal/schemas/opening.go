@@ -1,25 +1,28 @@
 package schemas
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Opening struct {
 	gorm.Model
-	Role     string
+	Role      string
 	CompanyID uint `gorm:"not null"`
-	Company  Company
-	Location string
-	Remote   bool
-	Link     string
-	Salary   int64
+	Company   Company
+	Status    string `gorm:"not null;default:'OPEN'"`
+	Location  string
+	Remote    bool
+	Link      string
+	Salary    int64
 }
 
 type OpeningResponse struct {
 	ID        uint      `json:"id"`
 	Role      string    `json:"role"`
-	CompanyID uint    	`json:"companyId"`
+	CompanyID uint      `json:"companyId"`
+	Status    string    `json:"status"`
 	Location  string    `json:"location"`
 	Remote    bool      `json:"remote"`
 	Link      string    `json:"link"`

@@ -15,13 +15,10 @@ type CreateCandidateRequest struct {
 }
 
 func (r *CreateCandidateRequest) Validate() error {
-	if r.UserID == 0 && r.Name == "" && r.Linkedin == "" && r.ResumeURL == "" && r.Skills == "" {
+	if r.Name == "" && r.Linkedin == "" && r.ResumeURL == "" && r.Skills == "" {
 		return fmt.Errorf("request body is empty or malformed")
 	}
 
-	if r.UserID == 0 {
-		return errParamIsRequired("userId", "uint")
-	}
 	if r.Name == "" {
 		return errParamIsRequired("name", "string")
 	}

@@ -3,6 +3,7 @@ package company
 import (
 	"net/http"
 
+	"github.com/UxieGu1/gopportunities-api/internal/middleware"
 	"github.com/UxieGu1/gopportunities-api/internal/schemas"
 	"github.com/gin-gonic/gin"
 )
@@ -23,6 +24,7 @@ func CreateCompanyHandler(context *gin.Context) {
 	}
 
 	company := schemas.Company{
+		UserID:      middleware.GetUserID(context),
 		Name:        request.Name,
 		Description: request.Description,
 		Website:     request.Website,

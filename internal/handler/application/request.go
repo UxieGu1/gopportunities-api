@@ -13,13 +13,10 @@ type CreateApplicationRequest struct {
 }
 
 func (r *CreateApplicationRequest) Validate() error {
-	if r.CandidateID == 0 && r.OpeningID == 0 {
+	if r.OpeningID == 0 {
 		return fmt.Errorf("request body is empty or malformed")
 	}
 
-	if r.CandidateID == 0 {
-		return errParamIsRequired("candidateId", "uint")
-	}
 	if r.OpeningID == 0 {
 		return errParamIsRequired("openingId", "uint")
 	}

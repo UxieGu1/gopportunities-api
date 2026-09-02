@@ -8,9 +8,9 @@ import (
 )
 
 func ShowCompanyHandler(context *gin.Context) {
-	idStr := context.Query("id")
+	idStr := context.Param("id")
 	if idStr == "" {
-		sendError(context, http.StatusBadRequest, errParamIsRequired("id", "queryParameter").Error())
+		sendError(context, http.StatusBadRequest, errParamIsRequired("id", "pathParameter").Error())
 		return
 	}
 

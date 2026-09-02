@@ -3,6 +3,7 @@ package candidate
 import (
 	"net/http"
 
+	"github.com/UxieGu1/gopportunities-api/internal/middleware"
 	"github.com/UxieGu1/gopportunities-api/internal/schemas"
 	"github.com/gin-gonic/gin"
 )
@@ -19,6 +20,14 @@ func CreateCandidateHandler(context *gin.Context) {
 	if err := request.Validate(); err != nil {
 		logger.Errorf("validation error: %v", err.Error())
 		sendError(context, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if middleware.GetUserRole(context) == "CANDIDATE" {
+		request.UserID = middleware.GetUserID(context)
+	}
+	if request.UserID == 0 {
+		sendError(context, http.StatusBadRequest, errParamIsRequired("userId", "uint").Error())
 		return
 	}
 

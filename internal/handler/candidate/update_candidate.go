@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/UxieGu1/gopportunities-api/internal/middleware"
 	"github.com/UxieGu1/gopportunities-api/internal/schemas"
 	"github.com/gin-gonic/gin"
 )
@@ -35,7 +36,14 @@ func UpdateCandidateHandler(context *gin.Context) {
 		return
 	}
 
+	userID := middleware.GetUserID(context)
+	if middleware.GetUserRole(context) == "ADMIN" {
+		userID = 0
+	}
 	candidate, err := candidateService.GetByID(uint(id))
+	if userID != 0 {
+		candidate, err = candidateService.GetByIDForUser(uint(id), userID)
+	}
 	if err != nil {
 		sendError(context, http.StatusNotFound, "candidate not found")
 		return
