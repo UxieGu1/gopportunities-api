@@ -1,4 +1,247 @@
+basePath: /api/v1
+definitions:
+  github_com_UxieGu1_gopportunities-api_internal_schemas.OpeningResponse:
+    properties:
+      companyId:
+        type: integer
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      id:
+        type: integer
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  internal_handler_opening.CreateOpeningRequest:
+    properties:
+      companyId:
+        type: integer
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        type: integer
+    type: object
+  internal_handler_opening.CreateOpeningResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_UxieGu1_gopportunities-api_internal_schemas.OpeningResponse'
+      message:
+        type: string
+    type: object
+  internal_handler_opening.DeleteOpeningResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_UxieGu1_gopportunities-api_internal_schemas.OpeningResponse'
+      message:
+        type: string
+    type: object
+  internal_handler_opening.ListOpeningsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/github_com_UxieGu1_gopportunities-api_internal_schemas.OpeningResponse'
+        type: array
+      message:
+        type: string
+    type: object
+  internal_handler_opening.ShowOpeningResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_UxieGu1_gopportunities-api_internal_schemas.OpeningResponse'
+      message:
+        type: string
+    type: object
+  internal_handler_opening.UpdateOpeningRequest:
+    properties:
+      companyId:
+        type: integer
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        type: integer
+    type: object
+  internal_handler_opening.UpdateOpeningResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_UxieGu1_gopportunities-api_internal_schemas.OpeningResponse'
+      message:
+        type: string
+    type: object
+host: localhost:8081
 info:
   contact: {}
-paths: {}
+  description: API para gerenciar oportunidades de emprego.
+  title: Gopportunities API
+  version: "1.0"
+paths:
+  /openings:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_handler_opening.ListOpeningsResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Lista todas as oportunidades
+      tags:
+      - openings
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Dados da oportunidade
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_handler_opening.CreateOpeningRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_handler_opening.CreateOpeningResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Cria uma nova oportunidade
+      tags:
+      - openings
+  /openings/{id}:
+    delete:
+      parameters:
+      - description: ID da oportunidade
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_handler_opening.DeleteOpeningResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Remove uma oportunidade por id
+      tags:
+      - openings
+    get:
+      parameters:
+      - description: ID da oportunidade
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_handler_opening.ShowOpeningResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Busca uma oportunidade por id
+      tags:
+      - openings
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID da oportunidade
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dados atualizados da oportunidade
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_handler_opening.UpdateOpeningRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_handler_opening.UpdateOpeningResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Atualiza uma oportunidade
+      tags:
+      - openings
 swagger: "2.0"

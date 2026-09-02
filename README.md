@@ -1,216 +1,160 @@
-# GoJob Opportunities API
-
 <p align="center">
   <img src="./assets/GopportunitiesHeader.svg" alt="GoJob Header">
 </p>
 
-API REST desenvolvida em **Go (Golang)** para gerenciamento de oportunidades de emprego.
+# GoJob Opportunities API
 
-O projeto foi desenvolvido com foco no aprendizado de desenvolvimento backend em Go, trabalhando conceitos como criação de APIs REST, organização de projetos, persistência de dados, documentação de endpoints, testes automatizados e containerização.
+API REST completa desenvolvida em Go (Golang) para gerenciamento de um ecossistema de vagas de emprego, conectando empresas, oportunidades, usuários e candidatos.
+
+O projeto evoluiu de um simples CRUD para uma arquitetura robusta e em camadas, focando no aprendizado avançado de desenvolvimento backend. A aplicação implementa injeção de dependência, padrão Repository, separação clara de regras de negócio (Services) e roteamento limpo utilizando o framework Gin.
+
+## 📋 Índice
+
+- [Funcionalidades](#-funcionalidades)
+- [Tecnologias Utilizadas](#️-tecnologias-utilizadas)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Como Executar](#-como-executar)
+- [Documentação da API](#-documentação-da-api-swagger)
+- [Principais Endpoints](#-principais-endpoints-api-v1)
+- [Makefile](#-makefile)
+- [Docker](#-docker)
+- [Próximos Passos](#-próximos-passos)
+- [Licença](#-licença)
 
 ## 🚀 Funcionalidades
 
-- Cadastro de oportunidades de emprego
-- Consulta de oportunidades
-- Busca de oportunidades por diferentes critérios
-- Atualização de oportunidades
-- Exclusão de oportunidades
-- Validação dos dados recebidos pela API
-- Persistência dos dados em banco SQLite
-- Documentação interativa com Swagger
-- Testes automatizados
-- Execução utilizando Docker e Docker Compose
+O sistema foi expandido e agora gerencia cinco domínios principais:
 
-## 🛠️ Tecnologias utilizadas
+- **Openings (Vagas)**: Cadastro, listagem e detalhamento de oportunidades de emprego
+- **Companies (Empresas)**: Gerenciamento das empresas que publicam as vagas
+- **Users (Usuários)**: Base de autenticação e perfis da plataforma
+- **Candidates (Candidatos)**: Perfis profissionais vinculados aos usuários, contendo currículos e habilidades
+- **Applications (Candidaturas)**: Fluxo de aplicação de candidatos às vagas, com rastreamento de status (APPLIED, REVIEWING, etc)
 
-- **Go (Golang)** — desenvolvimento do backend
-- **Gin** — criação e gerenciamento das rotas HTTP
-- **GORM** — comunicação com o banco de dados
-- **SQLite** — armazenamento dos dados
-- **Swagger** — documentação e teste dos endpoints
-- **Docker** — containerização da aplicação
-- **Docker Compose** — gerenciamento dos containers
+## 🛠️ Tecnologias Utilizadas
 
-## 📁 Estrutura do projeto
+- **Go (Golang)** — Desenvolvimento do backend
+- **Gin** — Roteamento e middlewares HTTP
+- **GORM** — ORM para mapeamento das entidades e relações
+- **SQLite** — Banco de dados relacional embarcado (desenvolvimento)
+- **Swagger** — Documentação interativa da API
+- **Docker & Compose** — Containerização e orquestração de ambiente
 
-O projeto utiliza uma organização baseada em pacotes, buscando separar as responsabilidades da aplicação e facilitar sua manutenção e evolução.
+## 📁 Estrutura do Projeto
 
-```text
+O projeto adota uma arquitetura em camadas (Clean Architecture inspired), separando responsabilidades por domínio e facilitando a manutenção, testes e evolução da base de código.
+
+````
 .
-├── assets/
 ├── cmd/
 │   └── api/
-│       └── main.go
+│       └── main.go               # Ponto de entrada da aplicação
 ├── internal/
-│   ├── config/
-│   ├── handler/
-│   ├── repository/
-│   ├── router/
-│   ├── schemas/
-│   └── service/
-├── docs/
+│   ├── config/                   # Configurações globais (Logger, DB)
+│   ├── handler/                  # Controladores HTTP (Requests, Responses)
+│   │   ├── application/
+│   │   ├── candidate/
+│   │   ├── company/
+│   │   ├── opening/
+│   │   └── user/
+│   ├── repository/               # Camada de acesso a dados (GORM/SQLite)
+│   ├── router/                   # Definição e agrupamento de rotas (Gin)
+│   ├── schemas/                  # Entidades do banco e DTOs
+│   └── service/                  # Regras de negócio e casos de uso
+├── docs/                         # Documentação gerada pelo Swagger
 ├── .env.example
 ├── docker-compose.yml
 ├── Dockerfile
 ├── Makefile
 └── go.mod
-```
+w```
 
-> A estrutura pode variar conforme a evolução do projeto.
-
-## ⚙️ Como executar
+## ⚙️ Como Executar
 
 ### Pré-requisitos
 
-Antes de iniciar, certifique-se de ter instalado:
-
-- Go
+- Go 1.22+
 - Git
 - Docker (opcional)
 
-### Executando localmente
+### Executando Localmente
 
-Clone o repositório:
+1. Clone o repositório:
 
 ```bash
 git clone github.com/UxieGu1/gopportunities-api
 cd gopportunities-api
-```
+````
 
-Baixe as dependências:
+2. Baixe as dependências:
 
 ```bash
 go mod download
 ```
 
-Execute a aplicação:
+3. Execute a aplicação:
 
 ```bash
 go run ./cmd/api
 ```
 
-Por padrão, a API será disponibilizada na porta `8081`.
+A API estará disponível em `http://localhost:8081`.
 
-## 📚 Documentação da API
+## 📚 Documentação da API (Swagger)
 
-Após iniciar a aplicação, a documentação do Swagger pode ser acessada em:
+A documentação interativa pode ser acessada com o servidor rodando em:
 
-```text
+```
 http://localhost:8081/swagger/index.html
 ```
 
-Através da interface do Swagger é possível visualizar os endpoints disponíveis e realizar requisições diretamente pelo navegador.
+## 🔌 Principais Endpoints (API v1)
 
-## 🔨 Comandos do Makefile
+A API é prefixada por `/api/v1`. Abaixo estão os recursos disponíveis:
 
-O projeto possui um `Makefile` para facilitar tarefas comuns durante o desenvolvimento.
+| Recurso          | Criação (POST)  | Leitura (GET)                         | Atualização (PUT)   | Exclusão (DELETE)   |
+| ---------------- | --------------- | ------------------------------------- | ------------------- | ------------------- | -------------- |
+| **Openings**     | `/openings`     | `/openings` e `/openings/:id`         | `/openings/:id`     | `/openings/:id`     |
+| **Companies**    | `/companies`    | `/companies` e `/companies/:id`       | `/companies/:id`    | `/companies/:id`    |
+| **Users**        | `/users`        | `/users` e `/users/:id`               | `/users/:id`        | `/users/:id`        |
+| **Candidates**   | `/candidates`   | `/candidates` e `/candidates/:id`     | `/candidates/:id`   | `/candidates/:id`   |
+| **Applications** | `/applications` | `/applications` e `/applications/:id` | `/applications/:id` | `/applications/:id` | ## 🔨 Makefile |
 
-| Comando              | Descrição                                |
-| -------------------- | ---------------------------------------- |
-| `make run`           | Executa a aplicação                      |
-| `make run-with-docs` | Gera a documentação e inicia a aplicação |
-| `make build`         | Compila a aplicação                      |
-| `make test`          | Executa os testes                        |
-| `make docs`          | Gera a documentação do Swagger           |
-| `make clean`         | Remove arquivos gerados                  |
+Utilitário de linha de comando para acelerar o desenvolvimento:
 
-Exemplo:
+| Comando              | Descrição                                  |
+| -------------------- | ------------------------------------------ | ------------ |
+| `make run`           | Executa a aplicação                        |
+| `make run-with-docs` | Gera a documentação Swagger e inicia a API |
+| `make build`         | Compila o binário da aplicação             |
+| `make test`          | Executa os testes unitários                |
+| `make docs`          | Atualiza a documentação do Swagger         |
+| `make clean`         | Limpa o binário gerado                     | ## 🐳 Docker |
 
-```bash
-make run
-```
-
-Para atualizar a documentação do Swagger:
-
-```bash
-make docs
-```
-
-## 🐳 Docker
-
-Também é possível executar a aplicação utilizando Docker.
-
-Para criar a imagem:
+Para executar a aplicação em um ambiente isolado:
 
 ```bash
-docker build -t gojob-api .
-```
-
-Para executar o container:
-
-```bash
-docker run --env-file .env -p 8081:8081 gojob-api
-```
-
-Caso utilize Docker Compose:
-
-```bash
+# Build e execução via Docker Compose
 docker compose build
-docker compose up
-```
+docker compose up -d
 
-Para interromper os serviços:
-
-```bash
+# Para encerrar a aplicação
 docker compose down
 ```
 
-## 🔌 Principais endpoints
+## 📌 Próximos Passos
 
-| Método   | Endpoint             | Descrição                 |
-| -------- | -------------------- | ------------------------- |
-| `GET`    | `/opportunities`     | Lista oportunidades       |
-| `GET`    | `/opportunities/:id` | Busca uma oportunidade    |
-| `POST`   | `/opportunities`     | Cria uma oportunidade     |
-| `PUT`    | `/opportunities/:id` | Atualiza uma oportunidade |
-| `DELETE` | `/opportunities/:id` | Remove uma oportunidade   |
+Evoluções planejadas para a maturidade do projeto:
 
-> Os endpoints podem variar conforme a implementação atual da API.
+- [ ] Implementar criptografia de senhas para Users (bcrypt)
+- [ ] Adicionar autenticação e autorização via JWT
+- [ ] Escrever testes unitários para a camada de Service usando Mocks
+- [ ] Migrar o banco de dados de SQLite para PostgreSQL no ambiente de produção
+- [ ] Implementar paginação e filtros nas rotas de listagem (GET)
+- [ ] Adicionar pipeline de CI/CD (GitHub Actions)## 📄 Licença
 
-## 🧪 Testes
-
-Os testes podem ser executados utilizando:
-
-```bash
-go test ./...
-```
-
-O objetivo dos testes é verificar o comportamento dos principais componentes da aplicação e reduzir possíveis regressões durante o desenvolvimento.
-
-## 🎯 Objetivo do projeto
-
-Este projeto faz parte dos meus estudos em **desenvolvimento backend com Go**.
-
-Durante o desenvolvimento, foram praticados conceitos importantes como:
-
-- Desenvolvimento de APIs REST
-- Routing
-- HTTP methods e status codes
-- CRUD
-- ORM
-- Persistência de dados
-- Estruturação de projetos Go
-- Testes automatizados
-- Documentação de APIs
-- Docker
-- Boas práticas de desenvolvimento backend
-
-## 📌 Próximos passos
-
-Algumas melhorias que podem ser implementadas futuramente:
-
-- [ ] Adicionar autenticação e autorização
-- [ ] Implementar paginação
-- [ ] Adicionar filtros mais avançados
-- [ ] Melhorar a cobertura de testes
-- [ ] Utilizar PostgreSQL em ambiente de produção
-- [ ] Implementar CI/CD
-- [ ] Adicionar observabilidade e logs estruturados
-
-## 📄 Licença
-
-Este projeto está disponível sob a licença definida no arquivo `LICENSE`.
+Este projeto está disponível sob a licença definida no arquivo [LICENSE](LICENSE).
 
 ---
 
-Desenvolvido por **Guilherme Freires** como projeto de estudo em desenvolvimento backend com Go.
+Desenvolvido por **Guilherme Freires** como projeto prático para domínio da linguagem Go e arquitetura de software.
