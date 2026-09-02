@@ -14,12 +14,13 @@ run:
 # Gera a documentação do Swagger (se você estiver usando swag init)
 run-with-docs:
 	@echo "📚 Atualizando documentação do Swagger..."
-	@swag init -g cmd/api/main.go -o docs
+	@swag init -g cmd/api/main.go -o docs --parseDependency
 	@go run ./cmd/api
 
+# Gera apenas a documentação
 docs:
 	@echo "📚 Atualizando documentação do Swagger..."
-	@swag init -g cmd/api/main.go -o docs
+	@swag init -g cmd/api/main.go -o docs --parseDependency
 
 # Compila o projeto e gera o arquivo executável
 build:

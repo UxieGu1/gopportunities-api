@@ -13,7 +13,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param request body CreateOpeningRequest true "Dados da oportunidade"
-// @Success 200 {object} schemas.Opening
+// @Success 200 {object} CreateOpeningResponse
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /openings [post]

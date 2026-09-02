@@ -10,7 +10,7 @@ import (
 // @Summary Lista todas as oportunidades
 // @Tags openings
 // @Produce json
-// @Success 200 {array} schemas.Opening
+// @Success 200 {object} ListOpeningsResponse
 // @Failure 500 {object} map[string]interface{}
 // @Router /openings [get]
 func ListOpeningsHandler(context *gin.Context) {

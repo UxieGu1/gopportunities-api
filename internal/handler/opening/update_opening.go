@@ -13,7 +13,7 @@ import (
 // @Produce json
 // @Param id path int true "ID da oportunidade"
 // @Param request body UpdateOpeningRequest true "Dados atualizados da oportunidade"
-// @Success 200 {object} schemas.Opening
+// @Success 200 {object} UpdateOpeningResponse
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}

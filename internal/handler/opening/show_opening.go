@@ -11,7 +11,7 @@ import (
 // @Tags openings
 // @Produce json
 // @Param id path int true "ID da oportunidade"
-// @Success 200 {object} schemas.Opening
+// @Success 200 {object} ShowOpeningResponse
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
 // @Router /openings/{id} [get]
