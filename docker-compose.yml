@@ -1,13 +1,33 @@
+version: '3.8'
+
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: gopportunities_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: gopportunities
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
   api:
     build: .
-    container_name: gopportunities-api
-    env_file:
-      - .env
-    environment:
-      DB_PATH: /app/db/main.db
+    container_name: gopportunities_api
+    restart: always
     ports:
       - "8081:8081"
-    volumes:
-      - ./db:/app/db
-    restart: unless-stopped
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=secretpassword
+      - DB_NAME=gopportunities
+      - DB_PORT=5432
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
